@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 #define NUM_CHILDREN 8 // or 10?
 // #define NUM_NODES 10
@@ -20,13 +21,14 @@ TrieNode* makeNode() {
   if (t == NULL) {
     return NULL;
   }
-  for (int i = 0; i < NUM_NODES; i++) {
-    t->next[i] = NULL;
+  for (int i = 0; i < NUM_CHILDREN; i++) {
+    t->children[i] = NULL;
   }
   t->word = NULL;
   return t;
 }
 
+/*
 // Function to insert a new Node
 // previous_node: 
 // word: String we're trying to add to the trieset
@@ -52,4 +54,4 @@ int node_insert(TrieNode *previous_node, char word[], int current_letter) {
        return node_insert(current_node, word, current_letter + 1);
    }
 }
-
+*/
