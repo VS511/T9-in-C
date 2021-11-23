@@ -28,7 +28,7 @@ TrieNode* makeNode() {
   return t;
 }
 
-/*
+
 // Function to insert a new Node
 // previous_node: 
 // word: String we're trying to add to the trieset
@@ -36,22 +36,31 @@ TrieNode* makeNode() {
 int node_insert(TrieNode *previous_node, char word[], int current_letter) {
    if (word[current_letter] == '\0') {
        // word is empty
+       printf("word is empty");
+       return EXIT_FAILURE;
    }
-   int digit = letter_to_digit(word[current_letter]);
-
+   // int digit = letter_to_digit(word[current_letter]); 
+   int digit = 1;
+   TrieNode* current_node;
    if (previous_node->children[digit] == NULL) { 
        // node doesn't exist, create it
+       // TrieNode* current_node =
+       // 
+       previous_node->children[digit] = makeNode();
+       current_node = previous_node->children[digit];
+       // makeNode() such that it is linked to the last node
+       // newNode->word[current_letter] = letter_to_digit(word[current_letter]);
    } else { // node already exists
-       current_node = //next unexamined child of previous node
+       current_node = previous_node->children[digit]; //next unexamined child of previous node
    }
    if (word[current_letter + 1] == '\0') { // at the end of the word     
        if (current_node->word == NULL) { // current node doesn’t have a word yet
-		// save word here
+       current_node->word = word;
        } else {  
            // current node already has a word, add it as an additional completion
        }
    } else { // not at the end of the string, so continue to the next letter
        return node_insert(current_node, word, current_letter + 1);
    }
+   return 0;
 }
-*/
