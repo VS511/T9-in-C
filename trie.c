@@ -1,8 +1,10 @@
 #include <stdio.h>
 #include <string.h>
 
+#define NUM_CHILDREN 8 // or 10?
+// #define NUM_NODES 10
 
-// TrieNode Data Structure
+// Resursive TrieNode Data Structure
 typedef struct TrieNode {
    char *word;
    struct TrieNode *children[NUM_CHILDREN];
