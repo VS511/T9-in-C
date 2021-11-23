@@ -30,7 +30,7 @@ TrieNode* makeNode() {
 // word: String we're trying to add to the trieset
 // current_letter: 
 int node_insert(TrieNode *previous_node, char word[], int current_letter) {
-   if (word[current_letter] == '\0') { // word is empty
+   if (word[current_letter] == '\0') {
        // word is empty
    }
    int digit = letter_to_digit(word[current_letter]);
