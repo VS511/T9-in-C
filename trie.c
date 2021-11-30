@@ -50,8 +50,9 @@ int node_insert(TrieNode *previous_node, char word[], int current_letter) {
        printf("word is empty");
        return EXIT_FAILURE;
    }
-   // int digit = letter_to_digit(word[current_letter]); 
-   int digit = 1;
+   
+   int digit = letter_to_digit(word[current_letter]); 
+
    TrieNode* current_node;
    if (previous_node->children[digit] == NULL) { 
        // node doesn't exist, create it
