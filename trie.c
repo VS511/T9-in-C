@@ -25,7 +25,7 @@ TrieNode* makeNode() {
   for (int i = 0; i < NUM_CHILDREN; i++) {
     t->children[i] = NULL;
   }
-  t->word = NULL;
+  t->words[0] = NULL;
   return t;
 }
 
@@ -45,29 +45,37 @@ int letter_to_digit(char letter) {
 // word: String we're trying to add to the trieset
 // current_letter: 
 int node_insert(TrieNode *previous_node, char word[], int current_letter) {
-   if (word[current_letter] == '\0') {
-       // word is empty
-       printf("word is empty");
-       return EXIT_FAILURE;
-   }
-   
-   int digit = letter_to_digit(word[current_letter]); 
+  if (word[current_letter] == '\0') {
+    // word is empty
+    printf("word is empty");
+    return EXIT_FAILURE;
+  }
+  int digit = letter_to_digit(word[current_letter]); 
 
-   TrieNode* current_node;
-   if (previous_node->children[digit] == NULL) { 
-       // node doesn't exist, create it
-       previous_node->children[digit] = makeNode();
+  TrieNode* current_node;
+  if (previous_node->children[digit] == NULL) { 
+    // node doesn't exist, create it
+    previous_node->children[digit] = makeNode();
+  }
+  current_node = previous_node->children[digit]; //next unexamined child of previous node
+
+  if (word[current_letter + 1] == '\0') { // at the end of the word     
+    if (current_node->words[0] == NULL) { // current node doesn’t have a word yet
+      current_node->words[0] = word;
+    } else {
+      // current node already has a word, add it as an additional completion
+      int i = 1;
+      while (current_node->words[i] != NULL) {
+        i++;
+      }
+
     }
-    current_node = previous_node->children[digit]; //next unexamined child of previous node
+  } else { // not at the end of the string, so continue to the next letter
+    return node_insert(current_node, word, current_letter + 1);
+  }
+  return 0;
+}
 
-   if (word[current_letter + 1] == '\0') { // at the end of the word     
-       if (current_node->word == NULL) { // current node doesn’t have a word yet
-       current_node->word = word;
-       } else {  
-           // current node already has a word, add it as an additional completion
-       }
-   } else { // not at the end of the string, so continue to the next letter
-       return node_insert(current_node, word, current_letter + 1);
-   }
-   return 0;
+int read_Dictionary(TrieNode *previous_node, FILE* dictionary) {
+  
 }
