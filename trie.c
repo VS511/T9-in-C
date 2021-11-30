@@ -1,20 +1,21 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include "trie.h"
 
 #define NUM_CHILDREN 8 // or 10?
 // #define NUM_NODES 10
 
 // Resursive TrieNode Data Structure
-typedef struct TrieNode {
+/* typedef struct TrieNode {
    char *word;
    struct TrieNode *children[NUM_CHILDREN];
-} TrieNode;
+} TrieNode; */
 
 // Trie Data Structure
-typedef struct Trie {
+/* typedef struct Trie {
    TrieNode *root;
-} Trie;
+} Trie; */
 
 TrieNode* makeNode() {
   TrieNode *t = (TrieNode*) malloc(sizeof(TrieNode));
@@ -54,15 +55,10 @@ int node_insert(TrieNode *previous_node, char word[], int current_letter) {
    TrieNode* current_node;
    if (previous_node->children[digit] == NULL) { 
        // node doesn't exist, create it
-       // TrieNode* current_node =
-       // 
        previous_node->children[digit] = makeNode();
-       current_node = previous_node->children[digit];
-       // makeNode() such that it is linked to the last node
-       // newNode->word[current_letter] = letter_to_digit(word[current_letter]);
-   } else { // node already exists
-       current_node = previous_node->children[digit]; //next unexamined child of previous node
-   }
+    }
+    current_node = previous_node->children[digit]; //next unexamined child of previous node
+
    if (word[current_letter + 1] == '\0') { // at the end of the word     
        if (current_node->word == NULL) { // current node doesn’t have a word yet
        current_node->word = word;
