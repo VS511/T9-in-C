@@ -27,7 +27,7 @@ int main (int argc, char* argv[]) {
         printf("Enter the numeric input. Enter "#" to toggle words.");
         scanf("%s", input);
 
-    } while (strcmp("#", input) != 0)
+    } while (strcmp("#", input) == 0)
     
     char word[20];
     
