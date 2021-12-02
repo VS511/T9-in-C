@@ -88,6 +88,7 @@ int node_insert(TrieNode *previous_node, char word[], int current_letter) {
   } else { // not at the end of the string, so continue to the next letter
     return node_insert(current_node, word, current_letter + 1);
   }
+
   return 0;
 }
 
@@ -107,31 +108,31 @@ int build_Dictionary(TrieNode* root, char* filename) {
   size_t buff_size = MAX_WORD_SIZE;
 
   // store first word in the buffer
-  fgets(buff, buff_size, dictionary);
-  size_t word_size = strlen(buff);
+  char* line = fgets(buff, buff_size, dictionary);
+  size_t word_len = strlen(buff);
 
   // check for newline character
-  if (buff[word_size - 1] == '\n') {
-    buff[word_size - 1] = '\0';
-    word_size--;
+  if (buff[word_len - 1] == '\n') {
+    buff[word_len - 1] = '\0';
+    word_len--;
   }
 
   // add all words to dictionary
   char* word;
-  while(buff != NULL) {
+  while(line[0] != '\0') {
     // get word from buffer
-    word = (char*) malloc(sizeof(char) * (word_size + 1));
-    strncpy(word, buff, word_size + 1);
+    word = (char*) malloc(sizeof(char) * (word_len + 1));
+    strncpy(word, buff, word_len + 1);
 
     // add current word to dictionary
     node_insert(root, word, 0);
 
     // store next word in the buffer
-    fgets(buff, buff_size, dictionary);
-    size_t word_size = strlen(buff);
-    if (buff[word_size - 1] == '\n') {
-      buff[word_size - 1] = '\0';
-      word_size--;
+    line = fgets(buff, buff_size, dictionary);
+    word_len = strlen(buff);
+    if (buff[word_len - 1] == '\n') {
+      buff[word_len - 1] = '\0';
+      word_len--;
     }
   }
 
