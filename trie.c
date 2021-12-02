@@ -5,7 +5,7 @@
 
 // #define NUM_CHILDREN 8 // or 10?
 // #define NUM_NODES 10
-#define MAX_WORD_SIZE 15
+#define MAX_WORD_SIZE 30
 
 TrieNode* makeNode() {
   TrieNode* t = (TrieNode*) malloc(sizeof(TrieNode));
@@ -78,12 +78,13 @@ int node_insert(TrieNode *previous_node, char word[], int current_letter) {
   } else { // not at the end of the string, so continue to the next letter
     return node_insert(current_node, word, current_letter + 1);
   }
-
   return 0;
 }
 
 // iterate through each word in file and add to the trie
-int build_Dictionary(TrieNode* root, char* filename) {
+// root - root of the trie being constructed
+// filename - a string of the filename
+int build_Trie(TrieNode* root, char* filename) {
   // open the file
   FILE* dictionary = fopen(filename, "r");
 
@@ -126,8 +127,41 @@ int build_Dictionary(TrieNode* root, char* filename) {
     }
   }
 
+  // free all memory (implementation detail, to be removed)
   free(buff);
   free(word);
-
+  fclose(dictionary);
   return 0;
+}
+
+// return the node corresponding to input "digits"
+TrieNode* get_node(TrieNode* root, char* digits) {
+  // length of digit sequence (may have to account for /0 or /n, we will see)
+  size_t digits_len = strlen(digits);
+
+  // initialize nodes
+  TrieNode* current_node = root;
+  TrieNode* next_node;
+
+  // find node corresponding to digit sequence
+  for (int i = 0; i < digits_len; i++) {
+    // if '#' symbol, return current_node
+    //  --we will count number of '#'s and access corresponding index in words array
+    if (digits[i] == '#') {
+      return current_node;
+    }
+    next_node = current_node->children[digits[i]];
+
+    // if node doesn't exist, return it as NULL and we will print according message
+    if (next_node == NULL) {
+      return NULL;
+    }
+    current_node = next_node;
+  }
+  return current_node;
+}
+
+// recursively free each node in the trie
+void free_Trie(TrieNode* root) { 
+  // TODO
 }

@@ -29,6 +29,10 @@ int letter_to_digit(char letter);
 
 int node_insert(TrieNode *previous_node, char word[], int current_letter);
 
-int build_Dictionary(TrieNode* root, char* filename);
+int build_Trie(TrieNode* root, char* filename);
+
+TrieNode* get_node(TrieNode* root, char* digits);
+
+void free_Trie(TrieNode* root);
 
 #endif 
