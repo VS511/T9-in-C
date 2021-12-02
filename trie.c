@@ -3,8 +3,9 @@
 #include <stdlib.h>
 #include "trie.h"
 
-#define NUM_CHILDREN 8 // or 10?
+// #define NUM_CHILDREN 8 // or 10?
 // #define NUM_NODES 10
+#define MAX_WORD_SIZE 15
 
 // Resursive TrieNode Data Structure
 /* typedef struct TrieNode {
@@ -18,14 +19,23 @@
 } Trie; */
 
 TrieNode* makeNode() {
-  TrieNode *t = (TrieNode*) malloc(sizeof(TrieNode));
+  TrieNode* t = (TrieNode*) malloc(sizeof(TrieNode));
   if (t == NULL) {
     return NULL;
   }
+
+  t->words = (char**) malloc(sizeof(char*) * DEFAULT_SIZE);
+  if (t->words == NULL) {
+    return NULL;
+  }
+  for (int i = 0; i < DEFAULT_SIZE; i++) {
+    t->words[i] = NULL;
+  }
+
+  t->size = DEFAULT_SIZE;
   for (int i = 0; i < NUM_CHILDREN; i++) {
     t->children[i] = NULL;
   }
-  t->words[0] = NULL;
   return t;
 }
 
@@ -58,17 +68,22 @@ int node_insert(TrieNode *previous_node, char word[], int current_letter) {
     previous_node->children[digit] = makeNode();
   }
   current_node = previous_node->children[digit]; //next unexamined child of previous node
+  char** current_words = current_node->words;
+  int current_size = current_node->size;
 
   if (word[current_letter + 1] == '\0') { // at the end of the word     
-    if (current_node->words[0] == NULL) { // current node doesn’t have a word yet
-      current_node->words[0] = word;
+    if (current_words[0] == NULL) { // current node doesn’t have a word yet
+      current_words[0] = word;
     } else {
       // current node already has a word, add it as an additional completion
       int i = 1;
-      while (current_node->words[i] != NULL) {
+      while (current_words[i] != NULL) {
         i++;
+        if (i > current_size) {
+          current_node->words = realloc(current_words, current_size + DEFAULT_SIZE);
+        }
       }
-
+      current_node->words[i] = word;
     }
   } else { // not at the end of the string, so continue to the next letter
     return node_insert(current_node, word, current_letter + 1);
@@ -76,6 +91,52 @@ int node_insert(TrieNode *previous_node, char word[], int current_letter) {
   return 0;
 }
 
-int read_Dictionary(TrieNode *previous_node, FILE* dictionary) {
-  
+// iterate through each word in file and add to the trie
+int build_Dictionary(TrieNode* root, char* filename) {
+  // open the file
+  FILE* dictionary = fopen(filename, "r");
+
+  // check if file exists
+  if (!dictionary) {    
+    fprintf(stderr, "Failed to open %s for input.\n", filename);
+    return EXIT_FAILURE;
+  }
+
+  // create a buffer to store the lines
+  char* buff = (char*) malloc(sizeof(char) * MAX_WORD_SIZE);
+  size_t buff_size = MAX_WORD_SIZE;
+
+  // store first word in the buffer
+  fgets(buff, buff_size, dictionary);
+  size_t word_size = strlen(buff);
+
+  // check for newline character
+  if (buff[word_size - 1] == '\n') {
+    buff[word_size - 1] = '\0';
+    word_size--;
+  }
+
+  // add all words to dictionary
+  char* word;
+  while(buff != NULL) {
+    // get word from buffer
+    word = (char*) malloc(sizeof(char) * (word_size + 1));
+    strncpy(word, buff, word_size + 1);
+
+    // add current word to dictionary
+    node_insert(root, word, 0);
+
+    // store next word in the buffer
+    fgets(buff, buff_size, dictionary);
+    size_t word_size = strlen(buff);
+    if (buff[word_size - 1] == '\n') {
+      buff[word_size - 1] = '\0';
+      word_size--;
+    }
+  }
+
+  free(buff);
+  free(word);
+
+  return 0;
 }
