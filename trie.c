@@ -7,17 +7,6 @@
 // #define NUM_NODES 10
 #define MAX_WORD_SIZE 15
 
-// Resursive TrieNode Data Structure
-/* typedef struct TrieNode {
-   char *word;
-   struct TrieNode *children[NUM_CHILDREN];
-} TrieNode; */
-
-// Trie Data Structure
-/* typedef struct Trie {
-   TrieNode *root;
-} Trie; */
-
 TrieNode* makeNode() {
   TrieNode* t = (TrieNode*) malloc(sizeof(TrieNode));
   if (t == NULL) {
@@ -43,8 +32,9 @@ TrieNode* makeNode() {
 // char
 
 int letter_to_digit(char letter) {
-  char ref[26] = {2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 6, 7, 7, 7, 7,
-          8, 8, 8, 9, 9, 9, 9};
+  char ref[26] = {2, 2, 2, 3, 3, 3, 4, 4,
+                  4, 5, 5, 5, 6, 6, 6, 7, 7,
+                  7, 7, 8, 8, 8, 9, 9, 9, 9};
   int i = letter - 'a';
   return ref[i];
 }
