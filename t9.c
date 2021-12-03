@@ -3,7 +3,6 @@
 #include <stdlib.h> 
 #include "trie.h"
 
-// **** Not sure if we should have this or not but I don't see how to avoid it *****
 #define MAX_USER_INPUT_LENGTH 40
 
 void usage (char* program) {
@@ -17,52 +16,11 @@ int main (int argc, char* argv[]) {
         // Print usage and exit
         usage(argv[0]);
     }
-<<<<<<< HEAD
     char* filename = argv[1];
-    /* FILE* f;
-    f = fopen(argv[1], "r"); // Opening our input dictionary
-    if (f == NULL) {
-        printf("Invalid Input");
-    } else {
-        // Build DS Code
-    } */
-=======
-
-    TrieNode* root = make_node();
-    TrieNode* current = root;
->>>>>>> bf99ad7b54642c8f595c00c419e72dc6a8e70a61
     
-    /* do {
-        printf("Enter the numeric input. Enter "#" to toggle words.");
-        current = root;
-
-        // Exit program if user input is "exit"
-        if (strstr(userinput, "exit") != NULL) {
-			exit(1);
-		}
-
-        for (int i = 0; i < (strlen(userinput)-1); i++) {
-			if (current != NULL) {
-            }
-        }
-
-<<<<<<< HEAD
-    } while (strcmp("#", input) == 0)
-    
-    char word[20]; */
-    
-=======
-        // Still need to implement the pound case.
-
-    } while (fgets(userinput, MAX_WORD_SIZE, stdin))
-    
-    char word[20];
->>>>>>> bf99ad7b54642c8f595c00c419e72dc6a8e70a61
-
     // make root node
+    TrieNode* root = make_Node();
 
-
-<<<<<<< HEAD
     // build trie from given file
     build_Trie(root, filename);
 
@@ -117,19 +75,5 @@ int main (int argc, char* argv[]) {
         scanf("%s", input);
     }
 
-=======
-    // open the input text file
-    //char* filename = argv[1];
-    build_Dictionary(root, f);
->>>>>>> bf99ad7b54642c8f595c00c419e72dc6a8e70a61
     return EXIT_SUCCESS;
 }
-
-/* FILE* f;
-    f = fopen(argv[1], "r"); // Opening our input dictionary
-    if (f == NULL) {
-        printf("Invalid Input");
-    } else {
-        // Build DS Code
-    }
-*/

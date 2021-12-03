@@ -3,11 +3,9 @@
 #include <stdlib.h>
 #include "trie.h"
 
-// #define NUM_CHILDREN 8 // or 10?
-// #define NUM_NODES 10
 #define MAX_WORD_SIZE 30
 
-TrieNode* make_node() {
+TrieNode* make_Node() {
   TrieNode* t = (TrieNode*) malloc(sizeof(TrieNode));
   if (t == NULL) {
     return NULL;
@@ -32,18 +30,18 @@ TrieNode* make_node() {
 // char
 
 int letter_to_digit(char letter) {
-  char ref[26] = {2, 2, 2, 3, 3, 3, 4, 4,
-                  4, 5, 5, 5, 6, 6, 6, 7, 7,
-                  7, 7, 8, 8, 8, 9, 9, 9, 9};
+  char ref[26] = {2, 2, 2, 3, 3, 3, 4, 4, 4
+                  5, 5, 5, 6, 6, 6, 7, 7, 7
+                  7, 8, 8, 8, 9, 9, 9, 9};
   int i = letter - 'a';
   return ref[i];
 }
 
 
 // Function to insert a new Node
-// previous_node: 
-// word: String we're trying to add to the trieset
-// current_letter: 
+//    previous_node: The node where we start the 
+//    word: String we're trying to add to the trieset
+//    current_letter: The current letter in 
 int node_insert(TrieNode *previous_node, char word[], int current_letter) {
   if (word[current_letter] == '\0') {
     // word is empty
@@ -58,12 +56,18 @@ int node_insert(TrieNode *previous_node, char word[], int current_letter) {
     previous_node->children[digit] = make_node();
   }
   current_node = previous_node->children[digit]; //next unexamined child of previous node
+
+  printf("%d-->", digit);                        // TEST
+
   char** current_words = current_node->words;
   int current_size = current_node->size;
 
   if (word[current_letter + 1] == '\0') { // at the end of the word     
     if (current_words[0] == NULL) { // current node doesn’t have a word yet
       current_words[0] = word;
+
+      printf("%s\n", word);
+
     } else {
       // current node already has a word, add it as an additional completion
       int i = 1;
@@ -74,6 +78,8 @@ int node_insert(TrieNode *previous_node, char word[], int current_letter) {
         }
       }
       current_node->words[i] = word;
+
+      printf("#x%d->%s\n", i, word);
     }
   } else { // not at the end of the string, so continue to the next letter
     return node_insert(current_node, word, current_letter + 1);
@@ -81,14 +87,11 @@ int node_insert(TrieNode *previous_node, char word[], int current_letter) {
   return 0;
 }
 
-// iterate through each word in file and add to the trie
-<<<<<<< HEAD
+// Iterate through each word in file and add to the trie
 // root - root of the trie being constructed
 // filename - a string of the filename
+
 int build_Trie(TrieNode* root, char* filename) {
-=======
-int build_dictionary(TrieNode* root, char* filename) {
->>>>>>> bf99ad7b54642c8f595c00c419e72dc6a8e70a61
   // open the file
   FILE* dictionary = fopen(filename, "r");
 
@@ -120,6 +123,9 @@ int build_dictionary(TrieNode* root, char* filename) {
     strncpy(word, buff, word_len + 1);
 
     // add current word to dictionary
+
+    printf("root-->");              // TEST
+
     node_insert(root, word, 0);
 
     // store next word in the buffer
@@ -134,7 +140,6 @@ int build_dictionary(TrieNode* root, char* filename) {
   // free all memory (implementation detail, to be removed)
   free(buff);
   free(word);
-<<<<<<< HEAD
   fclose(dictionary);
   return 0;
 }
@@ -166,28 +171,16 @@ TrieNode* get_node(TrieNode* root, char* digits) {
   return current_node;
 }
 
-// recursively free each node in the trie
+// Recursively free each node in the trie
 void free_Trie(TrieNode* root) { 
-  // TODO
-}
-=======
-  return 0;
-}
-
-TrieNode* search_node(TrieNode* root, char* inputdigits) {
-  TrieNode* current = root;
-
-  for (int i = 0; i < strlen(inputdigits); i++) {
-    if (inputdigits[i] =! "#") {
-        if (current->children[(inputdigits[i] - '0')] == NULL {
-          return NULL;
-        }
-        current = current->children[(inputdigits[i] - '0')];
-        
-    } else {
-            // case for pound needs to be added.
+  for (int i = 1; i < NUM_CHILDREN; i++) {
+    if (root->children[i] != NULL) {
+      free_Trie(root->children[i]);
+      free(root->children[i]);
     }
   }
+  // Clears the words on whichever node is running the code
+  if (root->words =! NULL) {
+    free(root->words);
+  }
 }
-
->>>>>>> bf99ad7b54642c8f595c00c419e72dc6a8e70a61
