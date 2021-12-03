@@ -77,7 +77,6 @@ int main (int argc, char* argv[]) {
                 pound_count = 0;
                 printf("Not found in current dictionary.\n");
             }
-
         } else {                                            // sequence doesn't start with '#'
             pound_count = 0;
             if (node == NULL) {                             // node not found -- separate test for invalid input??
