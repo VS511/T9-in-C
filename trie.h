@@ -23,12 +23,11 @@ typedef struct TrieNode {
    TrieNode *root;
 } Trie; */
 
-TrieNode* makeNode();
+TrieNode* make_node();
 
 int letter_to_digit(char letter);
-
 int node_insert(TrieNode *previous_node, char word[], int current_letter);
-
-int build_Dictionary(TrieNode* root, char* filename);
+int build_dictionary(TrieNode* root, char* filename);
+TrieNode* search_node(TrieNode* root, char* inputdigits);
 
 #endif 
