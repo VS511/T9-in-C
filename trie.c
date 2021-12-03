@@ -7,7 +7,7 @@
 // #define NUM_NODES 10
 #define MAX_WORD_SIZE 30
 
-TrieNode* makeNode() {
+TrieNode* make_node() {
   TrieNode* t = (TrieNode*) malloc(sizeof(TrieNode));
   if (t == NULL) {
     return NULL;
@@ -55,7 +55,7 @@ int node_insert(TrieNode *previous_node, char word[], int current_letter) {
   TrieNode* current_node;
   if (previous_node->children[digit] == NULL) { 
     // node doesn't exist, create it
-    previous_node->children[digit] = makeNode();
+    previous_node->children[digit] = make_node();
   }
   current_node = previous_node->children[digit]; //next unexamined child of previous node
   char** current_words = current_node->words;
@@ -82,9 +82,13 @@ int node_insert(TrieNode *previous_node, char word[], int current_letter) {
 }
 
 // iterate through each word in file and add to the trie
+<<<<<<< HEAD
 // root - root of the trie being constructed
 // filename - a string of the filename
 int build_Trie(TrieNode* root, char* filename) {
+=======
+int build_dictionary(TrieNode* root, char* filename) {
+>>>>>>> bf99ad7b54642c8f595c00c419e72dc6a8e70a61
   // open the file
   FILE* dictionary = fopen(filename, "r");
 
@@ -130,6 +134,7 @@ int build_Trie(TrieNode* root, char* filename) {
   // free all memory (implementation detail, to be removed)
   free(buff);
   free(word);
+<<<<<<< HEAD
   fclose(dictionary);
   return 0;
 }
@@ -165,3 +170,24 @@ TrieNode* get_node(TrieNode* root, char* digits) {
 void free_Trie(TrieNode* root) { 
   // TODO
 }
+=======
+  return 0;
+}
+
+TrieNode* search_node(TrieNode* root, char* inputdigits) {
+  TrieNode* current = root;
+
+  for (int i = 0; i < strlen(inputdigits); i++) {
+    if (inputdigits[i] =! "#") {
+        if (current->children[(inputdigits[i] - '0')] == NULL {
+          return NULL;
+        }
+        current = current->children[(inputdigits[i] - '0')];
+        
+    } else {
+            // case for pound needs to be added.
+    }
+  }
+}
+
+>>>>>>> bf99ad7b54642c8f595c00c419e72dc6a8e70a61
