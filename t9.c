@@ -42,7 +42,7 @@ int main (int argc, char* argv[]) {
     build_Trie(root, filename);
 
     // initialize variables
-    char* input[MAX_USER_INPUT_LENGTH];
+    char input[MAX_USER_INPUT_LENGTH];
     TrieNode* node;
     TrieNode* prev_node = NULL;
     int pound_count = 0;
