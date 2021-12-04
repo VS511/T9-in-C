@@ -19,7 +19,7 @@ int main (int argc, char* argv[]) {
     char* filename = argv[1];
     
     // make root node
-    TrieNode* root = make_Node();
+    TrieNode* root = make_node();
 
     // build trie from given file
     build_Trie(root, filename);
@@ -74,6 +74,10 @@ int main (int argc, char* argv[]) {
         prev_node = node;
         scanf("%s", input);
     }
+
+    //
+
+    free_Trie(root);
 
     return EXIT_SUCCESS;
 }

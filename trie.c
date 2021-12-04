@@ -5,7 +5,7 @@
 
 #define MAX_WORD_SIZE 30
 
-TrieNode* make_Node() {
+TrieNode* make_node() {
   TrieNode* t = (TrieNode*) malloc(sizeof(TrieNode));
   if (t == NULL) {
     return NULL;
@@ -30,8 +30,8 @@ TrieNode* make_Node() {
 // char
 
 int letter_to_digit(char letter) {
-  char ref[26] = {2, 2, 2, 3, 3, 3, 4, 4, 4
-                  5, 5, 5, 6, 6, 6, 7, 7, 7
+  char ref[26] = {2, 2, 2, 3, 3, 3, 4, 4, 4,
+                  5, 5, 5, 6, 6, 6, 7, 7, 7,
                   7, 8, 8, 8, 9, 9, 9, 9};
   int i = letter - 'a';
   return ref[i];
@@ -165,22 +165,23 @@ TrieNode* get_node(TrieNode* root, char* digits) {
     // if node doesn't exist, return it as NULL and we will print according message
     if (next_node == NULL) {
       return NULL;
-    }
+    } else {
     current_node = next_node;
+    }
   }
   return current_node;
 }
 
 // Recursively free each node in the trie
 void free_Trie(TrieNode* root) { 
-  for (int i = 1; i < NUM_CHILDREN; i++) {
+  for (int i = 2; i < NUM_CHILDREN; i++) {
     if (root->children[i] != NULL) {
       free_Trie(root->children[i]);
       free(root->children[i]);
     }
   }
   // Clears the words on whichever node is running the code
-  if (root->words =! NULL) {
+  if (root->words != NULL) {
     free(root->words);
   }
 }
