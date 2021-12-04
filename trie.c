@@ -10,11 +10,10 @@ TrieNode* make_node() {
   if (t == NULL) {
     return NULL;
   }
-
   t->words = (char**) malloc(sizeof(char*) * DEFAULT_SIZE);
-  if (t->words == NULL) {
-    return NULL;
-  }
+  // if (t->words == NULL) {
+  //   return NULL;
+  // }
   for (int i = 0; i < DEFAULT_SIZE; i++) {
     t->words[i] = NULL;
   }
@@ -55,7 +54,10 @@ int node_insert(TrieNode *previous_node, char word[], int current_letter) {
     // node doesn't exist, create it
     previous_node->children[digit] = make_node();
   }
-  current_node = previous_node->children[digit]; //next unexamined child of previous node
+  current_node = previous_node->children[digit]; // next unexamined child of previous node
+  if (current_node == NULL) {
+    return 0;
+  }
 
   printf("%d-->", digit);                        // TEST
 
@@ -66,7 +68,7 @@ int node_insert(TrieNode *previous_node, char word[], int current_letter) {
     if (current_words[0] == NULL) { // current node doesn’t have a word yet
       current_words[0] = word;
 
-      printf("%s\n", word);
+      printf("%s\n", word);          // TEST
 
     } else {
       // current node already has a word, add it as an additional completion
@@ -81,7 +83,7 @@ int node_insert(TrieNode *previous_node, char word[], int current_letter) {
       }
       current_node->words[i] = word;
 
-      printf("#x%d->%s\n", i, word);
+      printf("#x%d->%s\n", i, word);    // TEST
     }
   } else { // not at the end of the string, so continue to the next letter
     return node_insert(current_node, word, current_letter + 1);
@@ -92,7 +94,6 @@ int node_insert(TrieNode *previous_node, char word[], int current_letter) {
 // Iterate through each word in file and add to the trie
 // root - root of the trie being constructed
 // filename - a string of the filename
-
 int build_Trie(TrieNode* root, char* filename) {
   // open the file
   FILE* dictionary = fopen(filename, "r");

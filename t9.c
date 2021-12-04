@@ -60,11 +60,13 @@ int main (int argc, char* argv[]) {
             }
             // three possible outputs (for now)
             if (i == strlen(input)) {                   // all chars were '#'
-                if (prev_node != NULL) {
+                if (prev_node != NULL && pound_count < prev_node->size) {
                     if (prev_node->words[pound_count] != NULL) {
                         printf("\'%s\'\n", prev_node->words[pound_count]);  // print corresponding word
                     }          
                 } else {                                    // too many '#'s, word doesn't exist
+                    prev_node = NULL;
+                    pound_count = 0;
                     printf("There are no more T9onyms\n");
                 }
             } else {                                        // chars other than '#' followed, invalid input
@@ -73,10 +75,11 @@ int main (int argc, char* argv[]) {
             }
         } else {                                            // sequence doesn't start with '#'
             node = get_node(root, input);           // might want to move THIS
+            prev_node = node;
             pound_count = 0;
             if (node == NULL) {                             // node not found -- separate test for invalid input??
                 printf("Not found in current dictionary.\n");
-            } else if (strchr(input, '#') != NULL) {        // input contains '#'
+            } else if (strchr(input, '#') != NULL) {        // sequence contains '#'
                 // go through similar process as above for # case (basically repeated code from this line until the last else statement)
                 char* pounds = strchr(input, '#');
                 int i = 0;
@@ -87,8 +90,8 @@ int main (int argc, char* argv[]) {
                 }
                 // three possible outputs (for now)
                 if (i == strlen(pounds)) {                   // all chars were '#'
-                    if (prev_node->words[i] != NULL) {          
-                        printf("\'%s\'\n", prev_node->words[i]);  // print corresponding word
+                    if (node->words[i] != NULL) {          
+                        printf("\'%s\'\n", node->words[i]);  // print corresponding word
                     } else {                                    // too many '#'s, word doesn't exist
                         printf("There are no more T9onyms\n");
                     }
@@ -100,7 +103,6 @@ int main (int argc, char* argv[]) {
                 printf("\'%s\'\n", node->words[0]);
             }
         }
-        prev_node = node;
         printf("Enter Key Sequence (or \"#\" for next word):\n");
         scanf("%s", buff);
         input = (char*) buff;
