@@ -25,7 +25,12 @@ int main (int argc, char* argv[]) {
     build_Trie(root, filename);
 
     // initialize variables
-    char input[MAX_USER_INPUT_LENGTH];
+    char* input;
+    char buff[MAX_USER_INPUT_LENGTH];
+    /* int input;
+    char buff[MAX_USER_INPUT_LENGTH];
+    char* digits; */
+    // char digits[MAX_USER_INPUT_LENGTH];
     TrieNode* node;
     TrieNode* prev_node = NULL;
     int pound_count = 0;
@@ -35,7 +40,13 @@ int main (int argc, char* argv[]) {
     printf("Enter Key Sequence (or \"#\" for next word):\n");
 
     // first user input
-    scanf("%s", input);
+    scanf("%s", buff);
+    input = (char*) buff;
+    /* scanf("%d", &input);
+    sprintf(buff, "%d", input);
+    digits = (char*) buff; */
+
+    // char* input = "76257";
 
     // main process, should account for all cases
     while (strcmp(input, "exit") != 0) {
@@ -72,7 +83,11 @@ int main (int argc, char* argv[]) {
             }
         }
         prev_node = node;
-        scanf("%s", input);
+        printf("Enter Key Sequence (or \"#\" for next word):\n");
+        scanf("%s", buff);
+        /* scanf("%d", &input);
+        sprintf(buff, "%d", input);
+        digits = (char*) buff; */
     }
 
     //

@@ -152,6 +152,7 @@ TrieNode* get_node(TrieNode* root, char* digits) {
   // initialize nodes
   TrieNode* current_node = root;
   TrieNode* next_node;
+  int n;
 
   // find node corresponding to digit sequence
   for (int i = 0; i < digits_len; i++) {
@@ -160,7 +161,8 @@ TrieNode* get_node(TrieNode* root, char* digits) {
     if (digits[i] == '#') {
       return current_node;
     }
-    next_node = current_node->children[(int)digits[i]];
+    n = digits[i] - '0';
+    next_node = current_node->children[n];
 
     // if node doesn't exist, return it as NULL and we will print according message
     if (next_node == NULL) {
