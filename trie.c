@@ -168,7 +168,7 @@ TrieNode* get_node(TrieNode* root, char* digits) {
     if (next_node == NULL) {
       return NULL;
     } else {
-    current_node = next_node;
+      current_node = next_node;
     }
   }
   return current_node;

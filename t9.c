@@ -46,22 +46,22 @@ int main (int argc, char* argv[]) {
     sprintf(buff, "%d", input);
     digits = (char*) buff; */
 
-    // char* input = "76257";
+    // char* input = "76257#";
 
     // main process, should account for all cases
     while (strcmp(input, "exit") != 0) {
-        node = get_node(root, input);
+        node = get_node(root, input);           // might want to move THIS
         // check if input starts with '#'
         if (input[0] == '#') {
             pound_count++;
-            int i = 1;
+            int i = 0;
             // count how many subsequent '#'s there are
             while (i < strlen(input) && input[i] == '#') {
                 pound_count++;
                 i++; 
             }
             // three possible outputs (for now)
-            if (i + 1 == strlen(input)) {                   // all chars were '#'
+            if (i == strlen(input)) {                   // all chars were '#'
                 if (prev_node->words[i] != NULL) {          
                     printf("\'%s\'\n", prev_node->words[i]);  // print corresponding word
                 } else {                                    // too many '#'s, word doesn't exist
@@ -78,6 +78,7 @@ int main (int argc, char* argv[]) {
             } else if (strchr(input, '#') != NULL) {        // input contains '#'
                 // go through similar (same?) process as above
                 pound_count++;
+
             } else {
                 printf("\'%s\'\n", node->words[0]);
             }
@@ -85,6 +86,7 @@ int main (int argc, char* argv[]) {
         prev_node = node;
         printf("Enter Key Sequence (or \"#\" for next word):\n");
         scanf("%s", buff);
+        input = (char*) buff;
         /* scanf("%d", &input);
         sprintf(buff, "%d", input);
         digits = (char*) buff; */
