@@ -50,10 +50,8 @@ int main (int argc, char* argv[]) {
 
     // main process, should account for all cases
     while (strcmp(input, "exit") != 0) {
-        node = get_node(root, input);           // might want to move THIS
         // check if input starts with '#'
         if (input[0] == '#') {
-            pound_count++;
             int i = 0;
             // count how many subsequent '#'s there are
             while (i < strlen(input) && input[i] == '#') {
@@ -62,8 +60,10 @@ int main (int argc, char* argv[]) {
             }
             // three possible outputs (for now)
             if (i == strlen(input)) {                   // all chars were '#'
-                if (prev_node->words[i] != NULL) {          
-                    printf("\'%s\'\n", prev_node->words[i]);  // print corresponding word
+                if (prev_node != NULL) {
+                    if (prev_node->words[pound_count] != NULL) {
+                        printf("\'%s\'\n", prev_node->words[pound_count]);  // print corresponding word
+                    }          
                 } else {                                    // too many '#'s, word doesn't exist
                     printf("There are no more T9onyms\n");
                 }
@@ -72,13 +72,30 @@ int main (int argc, char* argv[]) {
                 printf("Not found in current dictionary.\n");
             }
         } else {                                            // sequence doesn't start with '#'
+            node = get_node(root, input);           // might want to move THIS
             pound_count = 0;
             if (node == NULL) {                             // node not found -- separate test for invalid input??
                 printf("Not found in current dictionary.\n");
             } else if (strchr(input, '#') != NULL) {        // input contains '#'
-                // go through similar (same?) process as above
-                pound_count++;
-
+                // go through similar process as above for # case (basically repeated code from this line until the last else statement)
+                char* pounds = strchr(input, '#');
+                int i = 0;
+                // count how many subsequent '#'s there are
+                while (i < strlen(pounds) && pounds[i] == '#') {
+                    pound_count++;
+                    i++; 
+                }
+                // three possible outputs (for now)
+                if (i == strlen(pounds)) {                   // all chars were '#'
+                    if (prev_node->words[i] != NULL) {          
+                        printf("\'%s\'\n", prev_node->words[i]);  // print corresponding word
+                    } else {                                    // too many '#'s, word doesn't exist
+                        printf("There are no more T9onyms\n");
+                    }
+                } else {                                        // chars other than '#' followed, invalid input
+                    pound_count = 0;
+                    printf("Not found in current dictionary.\n");
+                }
             } else {
                 printf("\'%s\'\n", node->words[0]);
             }

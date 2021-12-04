@@ -74,7 +74,9 @@ int node_insert(TrieNode *previous_node, char word[], int current_letter) {
       while (current_words[i] != NULL) {
         i++;
         if (i > current_size) {
-          current_node->words = realloc(current_words, current_size + DEFAULT_SIZE);
+          // resize words array
+          current_node->size = current_size + DEFAULT_SIZE;
+          current_node->words = realloc(current_words, current_size);
         }
       }
       current_node->words[i] = word;
