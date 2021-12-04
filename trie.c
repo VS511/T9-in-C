@@ -142,7 +142,7 @@ int build_Trie(TrieNode* root, char* filename) {
 
   // free all memory (implementation detail, to be removed)
   free(buff);
-  free(word);
+  // free(word);
   fclose(dictionary);
   return 0;
 }
