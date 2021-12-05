@@ -112,6 +112,7 @@ int main (int argc, char* argv[]) {
     //
 
     free_Trie(root);
+    free(root);
 
     return EXIT_SUCCESS;
 }

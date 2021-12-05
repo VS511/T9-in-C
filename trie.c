@@ -11,9 +11,9 @@ TrieNode* make_node() {
     return NULL;
   }
   t->words = (char**) malloc(sizeof(char*) * DEFAULT_SIZE);
-  // if (t->words == NULL) {
-  //   return NULL;
-  // }
+  if (t->words == NULL) {
+     return NULL;
+  }
   for (int i = 0; i < DEFAULT_SIZE; i++) {
     t->words[i] = NULL;
   }
@@ -61,24 +61,29 @@ int node_insert(TrieNode *previous_node, char word[], int current_letter) {
 
   printf("%d-->", digit);                        // TEST
 
-  char** current_words = current_node->words;
+  // char** current_words;
   int current_size = current_node->size;
 
   if (word[current_letter + 1] == '\0') { // at the end of the word     
-    if (current_words[0] == NULL) { // current node doesn’t have a word yet
-      current_words[0] = word;
+    if (current_node->words[0] == NULL) { // current node doesn’t have a word yet
+      current_node->words[0] = word;
 
       printf("%s\n", word);          // TEST
 
     } else {
       // current node already has a word, add it as an additional completion
       int i = 1;
-      while (current_words[i] != NULL) {
+      while (current_node->words[i] != NULL) {
         i++;
-        if (i > current_size) {
+        if (i >= current_size) {
           // resize words array
-          current_node->size = current_size + DEFAULT_SIZE;
-          current_node->words = realloc(current_words, current_size);
+          current_size = current_size + DEFAULT_SIZE;
+          current_node->size = current_size;
+          current_node->words = (char**) realloc(current_node->words, sizeof(char*) * current_size);
+          // initializing all values in words array
+          for (int j = i; j < current_size; j++) {
+            current_node->words[j] = NULL;
+          }
         }
       }
       current_node->words[i] = word;
@@ -120,16 +125,19 @@ int build_Trie(TrieNode* root, char* filename) {
 
   // add all words to dictionary
   char* word;
+  // word = (char*) malloc(sizeof(char) * (word_len));               
   while(line != NULL) {
     // get word from buffer
     word = (char*) malloc(sizeof(char) * (word_len + 1));
-    strncpy(word, buff, word_len + 1);
+    strncpy(word, buff, word_len + 1);     
 
     // add current word to dictionary
 
     printf("root-->");              // TEST
 
     node_insert(root, word, 0);
+
+    // free(word);
 
     // store next word in the buffer
     line = fgets(buff, buff_size, dictionary);
@@ -178,15 +186,18 @@ TrieNode* get_node(TrieNode* root, char* digits) {
 }
 
 // Recursively free each node in the trie
-void free_Trie(TrieNode* root) { 
+void free_Trie(TrieNode* node) { 
   for (int i = 2; i < NUM_CHILDREN; i++) {
-    if (root->children[i] != NULL) {
-      free_Trie(root->children[i]);
-      free(root->children[i]);
+    if (node->children[i] != NULL) {
+      free_Trie(node->children[i]);
+      free(node->children[i]);
     }
   }
   // Clears the words on whichever node is running the code
-  if (root->words != NULL) {
-    free(root->words);
+  if (node->words != NULL) {
+    for (int i = 0; i < node->size; i++) {
+      free(node->words[i]);
+    }
+    free(node->words);
   }
 }
