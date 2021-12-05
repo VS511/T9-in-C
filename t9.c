@@ -60,15 +60,13 @@ int main (int argc, char* argv[]) {
             }
             // three possible outputs (for now)
             if (i == strlen(input)) {                   // all chars were '#'
-                if (prev_node != NULL && pound_count < prev_node->size) {
-                    if (prev_node->words[pound_count] != NULL) {
-                        printf("\'%s\'\n", prev_node->words[pound_count]);  // print corresponding word
-                    }          
-                } else {                                    // too many '#'s, word doesn't exist
+                if (prev_node != NULL && pound_count < prev_node->size && prev_node->words[pound_count] != NULL) {
+                    printf("\'%s\'\n", prev_node->words[pound_count]);  // print corresponding word
+                } else {
                     prev_node = NULL;
                     pound_count = 0;
                     printf("There are no more T9onyms\n");
-                }
+                }         
             } else {                                        // chars other than '#' followed, invalid input
                 pound_count = 0;
                 printf("Not found in current dictionary.\n");
